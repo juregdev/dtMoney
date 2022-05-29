@@ -3,8 +3,6 @@ import { useContext } from "react"
 
 
 export function History() {
-
-  const data = useContext()
   return (
     <div className="w-full max-w-[1120px] text-center px-4">
       <table className="w-full flex flex-col items-center text-[16px] leading-6 gap-y-2 text-textos">
