@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { Transaction } from "./hooks/useTransaction";
+import { DataDB, useUser } from "./hooks/useUser";
+
 import { Header } from "./components/Header";
-import { History } from "./components/History";
 import { NewTransaction } from "./components/forms/NewTransaction";
 import { Summary } from "./components/Sumarry";
-import { FormLogin } from "./components/forms/Login";
+import { History } from "./components/History";
 import { HistoryMobile } from "./components/HistoryMobile";
-import { DataDB } from "./hooks/useData";
+import { FormLogin } from "./components/forms/Login";
 
 
 export function App() {
@@ -14,9 +16,11 @@ export function App() {
 
   const [loginIsOpen, setLoginIsOpen] = useState(false)
 
-  const [userIsLogged, setUserIsLogged] = useState(true)
-
   const [isMobile, setMobile] = useState(false)
+
+  const { userIsLogged } = useUser()
+
+  console.log(userIsLogged)
 
   useEffect(() => {
     if (screen.width < 768) {
@@ -39,23 +43,21 @@ export function App() {
   }
 
   return (
-    <>
-      <DataDB>
-        <>
-          <Header
-            openNewTransition={changeNewTransactionIsOpen}
-            isOpen={newTransactionIsOpen}
-            loginIsOpen={loginIsOpen}
-            openLogin={changeLoginIsOpen}
-            userIsLogged={userIsLogged}
-          />
-          <div className={`flex flex-col justify-center items-center ${userIsLogged === false && 'blur-[6px]'}`}>
-            <Summary />
-            {isMobile ? <HistoryMobile /> : <History />}
-            {userIsLogged ? <NewTransaction isOpen={newTransactionIsOpen} changeModal={changeNewTransactionIsOpen} /> : <FormLogin isOpen={loginIsOpen} close={changeLoginIsOpen} />}
-          </div>
-        </>
-      </DataDB>
-    </>
+    <DataDB>
+      <Transaction>
+        <Header
+          openNewTransition={changeNewTransactionIsOpen}
+          isOpen={newTransactionIsOpen}
+          loginIsOpen={loginIsOpen}
+          openLogin={changeLoginIsOpen}
+          userIsLogged={userIsLogged}
+        />
+        <div className={`flex flex-col justify-center items-center ${userIsLogged === false && 'blur-[6px]'}`}>
+          <Summary />
+          {isMobile ? <HistoryMobile /> : <History />}
+          {userIsLogged ? <NewTransaction isOpen={newTransactionIsOpen} changeModal={changeNewTransactionIsOpen} /> : <FormLogin isOpen={loginIsOpen} close={changeLoginIsOpen} />}
+        </div>
+      </Transaction>
+    </DataDB>
   )
 }

@@ -2,25 +2,23 @@ import { Dialog } from "@headlessui/react"
 import { useForm } from "react-hook-form"
 
 import closeImg from '../../assets/close.svg'
+import { formLogin, useUser } from "../../hooks/useUser"
 
 interface DialogProps {
   isOpen: boolean,
   close: () => void
 }
 
-type formData = {
-  name: string
-  email: string
-  password: string
-}
+type formData = formLogin
 
 export function FormLogin({ isOpen, close }: DialogProps) {
 
   const { register, setValue, handleSubmit } = useForm<formData>()
+  const { searchUser } = useUser()
 
   const userData = handleSubmit(data => {
-    console.log(data)
-
+    searchUser(data)
+    close()
 
   })
 
@@ -36,9 +34,8 @@ export function FormLogin({ isOpen, close }: DialogProps) {
         </Dialog.Title>
         <Dialog.Description>
           <form className="flex items-center justify-center flex-col gap-4" onSubmit={userData}>
-            <input type="text" className="w-full max-w-[480px] h-[64px] bg-input border-2 border-border_input rounded-md text-[16px] px-6" placeholder="Nome" {...register("name")} />
 
-            <input type="email" className="w-full max-w-[480px] h-[64px] bg-input border-2 border-border_input rounded-md text-[16px] px-6" placeholder="E-mail" {...register("email")} />
+            <input type="email" className="w-full max-w-[480px] h-[64px] bg-input border-2 border-border_input rounded-md text-[16px] px-6" placeholder="E-mail" {...register("mail")} />
 
             <input type="Password" className="w-full max-w-[480px] h-[64px] bg-input border-2 border-border_input rounded-md text-[16px] px-6" placeholder="Senha" {...register("password")} />
 

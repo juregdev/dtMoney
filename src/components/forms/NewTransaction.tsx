@@ -1,10 +1,11 @@
-import { FormEvent, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { useState } from 'react';
+import { useForm } from 'react-hook-form'
 import { Dialog } from '@headlessui/react'
 
 import close from '../../assets/close.svg'
 import income from '../../assets/income.svg'
 import outcome from '../../assets/outcome.svg'
+import { useTransaction } from '../../hooks/useTransaction';
 
 interface NewTransactionProps {
   isOpen: boolean,
@@ -22,15 +23,17 @@ export function NewTransaction({ isOpen, changeModal }: NewTransactionProps) {
 
   const { register, setValue, handleSubmit } = useForm<formData>()
   const [typeTransition, setTypeTransition] = useState('deposit')
+  const { writeTransition } = useTransaction()
 
-  const submit = handleSubmit(data => {
+  const submit = handleSubmit((data: formData) => {
     const { title, price, category } = data
     const FormInfo = {
-      title: title,
-      price: price,
+      description: title,
+      value: price,
       category: category,
-      type: typeTransition
+      tp_transition: typeTransition
     }
+    writeTransition(FormInfo)
 
     setValue("title", "")
     setValue("price", 0)

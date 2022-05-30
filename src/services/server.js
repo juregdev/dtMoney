@@ -1,5 +1,5 @@
-// src/server.js
 import { createServer, Model } from "miragejs"
+import { v4 as uuid } from 'uuid'
 
 export function makeServer({ environment = "test" } = {}) {
   let server = createServer({
@@ -15,18 +15,13 @@ export function makeServer({ environment = "test" } = {}) {
 
       this.get("/users", (schema) => {
         return {
-          user: [{
-            tp_user: "user",
-            mail: "Filipe.Araujo9@outlook.com",
-            password: "Filipe@123",
-            Photo: ""
-          },
-          {
-            tp_user: "adm",
-            mail: "Filipe.Araujo9@etec.sp.gov.br",
-            password: "Jureg@123",
-            Photo: ""
-          }]
+          user: [
+            {
+              tp_user: "adm",
+              mail: "Filipe.Araujo9@etec.sp.gov.br",
+              password: "Jureg@123",
+              Photo: ""
+            }]
 
         }
       })
@@ -39,6 +34,7 @@ export function makeServer({ environment = "test" } = {}) {
             description: "Refatoramento",
             mail_user: "Filipe.Araujo9@outlook.com",
             created_at: new Date(),
+            id: uuid()
           },
           {
             tp_transition: "witdraw",
@@ -47,6 +43,7 @@ export function makeServer({ environment = "test" } = {}) {
             description: "Aluguel",
             mail_user: "Filipe.Araujo9@outlook.com",
             created_at: new Date(),
+            id: uuid(),
           },
           ]
         }
