@@ -1,5 +1,5 @@
-import logo from './assets/logo.svg'
-import profile from './assets/profile.jpg'
+import logo from '../assets/logo.svg'
+import profile from '../assets/profile.jpg'
 
 
 interface headerProps {
